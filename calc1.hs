@@ -18,7 +18,7 @@ b = 2.0
 list = 
 	[a, (-0.5) .. b]
 
--- Função em torno de x.
+-- Function definition.
 fx :: (Num a) => a -> a
 fx x = (2 * x) - 10
 
@@ -28,13 +28,13 @@ f x y =
 
 function :: (Num a, Fractional a, Ord a) => a -> a -> a
 function a b  
-	| fx a 			== 0		= a
-	| fx b 			== 0		= b
-	| fx x1			<= (-1.0)  	= x1 
-	| fx x1			== 0       	= x1
-	| fx a * fx x1	== 0       	= x1
-	| fx a * fx x1       > 0		= function x1 b
-	| fx a * fx x1       < 0		= function a x1
-	| fx b * fx x1       > 0		= function a x1
-	| fx b * fx x1       < 0		= function x1 b
-	where                  x1        	= (a + b) / 2
+	| fx a 				== 0		= a
+	| fx b 				== 0		= b
+	| fx x1				<= (-1.0)	= x1 
+	| fx x1				== 0		= x1
+	| fx a * fx x1		== 0		= x1
+	| fx a * fx x1       	> 0			= function x1 b
+	| fx a * fx x1       	< 0			= function a x1
+	| fx b * fx x1       	> 0			= function a x1
+	| fx b * fx x1		< 0			= function x1 b
+	where				x1			= (a + b) / 2
