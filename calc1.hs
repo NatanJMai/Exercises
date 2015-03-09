@@ -14,12 +14,6 @@
 
 {-		Method One 		-}
 
-a = (-1.0)
-b = 2.0
-
-list = 
-	[a, (-0.5) .. b]
-
 -- Function definition.
 fx :: (Num a) => a -> a
 fx x = -(2 * x) - 10
