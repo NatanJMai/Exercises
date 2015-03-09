@@ -12,6 +12,8 @@
 			result = 5.0 (OK)
 -}
 
+{-		Method One 		-}
+
 a = (-1.0)
 b = 2.0
 
@@ -20,7 +22,7 @@ list =
 
 -- Function definition.
 fx :: (Num a) => a -> a
-fx x = (2 * x) - 10
+fx x = -(2 * x) - 10
 
 f :: (Ord a, Num a) => a -> a -> a
 f x y =
@@ -30,7 +32,7 @@ function :: (Num a, Fractional a, Ord a) => a -> a -> a
 function a b  
 	| fx a 				== 0		= a
 	| fx b 				== 0		= b
-	| fx x1				<= (-1.0)	= x1 
+	| fx x1				<= (-5)	= x1 
 	| fx x1				== 0		= x1
 	| fx a * fx x1		== 0		= x1
 	| fx a * fx x1       	> 0			= function x1 b
