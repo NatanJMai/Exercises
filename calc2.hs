@@ -1,10 +1,21 @@
+{-
+	Implementation of a numerical method for find the roots. 
+	Receive one function defined, two points (a, b) and
+	a list with the values between a and b.
+
+	Example: 
+	f(x) = (2 * x) + 8
+    		> function (-4) 6 
+			result = -4.0 (OK)	
+-}
+
 {-      Other method        -}
 
 fx :: (Num a, Ord a) => a -> a
 fx x  
-	| c < 0              = (- c)
-	| otherwise       = c
-	where          c   = (2 * x) + 8
+	| c < 0			= (- c)
+	| otherwise		= c
+	where          c	= (2 * x) + 8
 
 getX :: (Num a, Fractional a, Ord a) => a -> a -> a
 getX a b = 
