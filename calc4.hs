@@ -5,9 +5,6 @@ import Data.Maybe (fromJust)
     Gauss Method
 -}
 
-teste :: Int
-teste = 2
-
 list :: (Num a) => [[a]]
 list =
     [
@@ -28,13 +25,18 @@ f x y = do
     x - m * y -}
 
 --calculo :: (Num a, Fractional a, Integral a) => [a] -> [a] -> [a]
-calculo xs ys = do
+calculo xs ys ind= do
     zipWith ( \x y -> y - m * x ) xs ys
-        where m = calcM (ys !! 0) (xs !! 0)
+        where m = calcM (ys !! ind) (xs !! ind)
 
 --gauss :: (Num a, Fractional a, Integral a) => [[a]] -> [a]
-gauss xs = do
-    [[x | x <- xs !! 0]] ++ [[y |y <- calculo (xs !! 0)(xs !! 1)]] ++ [[z | z <-  calculo(xs !! 0)(xs !! 2)]]
+gauss xs piv k =
+    [[x | x <- xs !! a]] ++  [[y |y <- calculo (xs !! a)(xs !! (a + 1)) 0 ]]  ++  [[z | z <-  calculo(xs !! a)(xs !! (a + 2)) 0]]
+      where a = k - 1
 
-    --[ | x <- xs !! 0, y <- calculo (xs !! 0)(xs !! 1), z <-  calculo(xs !! 0)(xs !! 2)]
-    --xs !! 0 ++ calculo (xs !! 0)(xs !! 1) ++  calculo(xs !! 0)(xs !! 2)
+
+ --[ | x <- xs !! 0, y <- calculo (xs !! 0)(xs !! 1), z <-  calculo(xs !! 0)(xs !! 2)]
+ --xs !! 0 ++ calculo (xs !! 0)(xs !! 1) ++  calculo(xs !! 0)(xs !! 2)
+gauss' xs piv k =
+    [[x | x <- xs !! a]] ++  [[y |y <- calculo (xs !! a)(xs !! (a + 1)) 1 ]]
+        where a = k - 1
