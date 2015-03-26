@@ -29,6 +29,11 @@ calculo xs ys ind= do
     zipWith ( \x y -> y - m * x ) xs ys
         where m = calcM (ys !! ind) (xs !! ind)
 
+
+result xs =
+    [xs !! 0] ++
+    gauss'(gauss xs 0 1) 1 2
+
 --gauss :: (Num a, Fractional a, Integral a) => [[a]] -> [a]
 gauss xs piv k =
     [[x | x <- xs !! a]] ++  [[y |y <- calculo (xs !! a)(xs !! (a + 1)) 0 ]]  ++  [[z | z <-  calculo(xs !! a)(xs !! (a + 2)) 0]]
