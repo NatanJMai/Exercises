@@ -3,8 +3,6 @@
 -}
 
 import Data.List
-import qualified Data.Map.Lazy as Map
-
 
 elemn xs =
     [ y | y <- xs, verifyElem y xs == True]
