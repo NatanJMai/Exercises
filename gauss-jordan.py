@@ -3,7 +3,7 @@
 
 def gauss(matriz):
     linhas  = len(matriz)
-    colunas = linhas + 1
+    colunas = len(matriz[1])
 
     for pivo in range(0,linhas):
         for linhasAc in range(0, pivo): #Acima
@@ -23,9 +23,10 @@ def gauss(matriz):
 def main():
     #matriz = [[1,6,2,4,8], [3,19,4,15,25], [1,4,8,-12,18],[5,33,9,3,72]]
     #matriz = [[3, 4, 5, 7, 20],[2, 1, 3, 0, 11],[1, 2, 3, 4, 10],[2, 2, 2, 2, 10]]
-
     #matriz = [[1,-3,2,11],[-2,8,-1,-15],[4,-6,5,29]]
-    matriz = [[2,3,-1,5],[4,4,-3,3],[2,-3,1,-1]]
+    #matriz = [[2,3,-1,5],[4,4,-3,3],[2,-3,1,-1]]
+
+    matriz = [[1, -3, 2, 11],[-2, 8, -1, -15]]
     gauss(matriz)
     print(matriz)
 
