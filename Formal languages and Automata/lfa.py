@@ -21,6 +21,8 @@ f = open("stats.py")
 
 statsK = f.readline()
 
+
+
 print(tes)
 
 statsK = ('S', 'a', 'ab', 'aba', 'abab')     # Set of states
