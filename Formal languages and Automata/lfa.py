@@ -12,24 +12,12 @@
 #    (dizendo que não precisa aplicar a determinização) ou
 #        então deve aplicar a determinização e gerar o AFD resultante como saída.
 
-
-#def afd():
-
 from stats import States
 from util  import *
 
 def main():
-
-    # Statics   - Entry static #
-    entry = 'aaaaaabaabaaaaaaababa'
-
-    # First verification - Verify if all letters are in alphabet  #
-    if verifyAllEntries(entry) == False:
-        print("The alphabet is wrong!")
-        return
-
+    entry = 'a'
     testAFD(entry, statsK)
-
 
 if __name__ == '__main__':
     main()

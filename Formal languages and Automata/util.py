@@ -43,13 +43,15 @@ def returnNextState(word, state):
     return ""
 
 def testAFD(word, statsK):
+    # First verification - Verify if all letters are in alphabet  #
+    if verifyAllEntries(word) == False:
+        print("The alphabet is wrong!")
+        return
+
     stateNow = statsK[0]
 
     for w in word:
-        #print("actual state: %s" % stateNow.name)
         stateNow = returnNextState(w, stateNow)
-        #if stateNow == "":
-           # print("w-> %s, state -> not avail" % w)
         print("     w-> %s, state -> %s" %(w, stateNow.name))
         if stateNow.final == True:
             print("FINAL - ACEITO")
