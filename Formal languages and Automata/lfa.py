@@ -16,8 +16,8 @@ from stats import States
 from util  import *
 
 def main():
-    entry = 'a'
-    testAFD(entry, statsK)
+    entry = raw_input("Entry: ")
+    testAFND(entry, statsK)
 
 if __name__ == '__main__':
     main()
