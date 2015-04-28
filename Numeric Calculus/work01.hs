@@ -1,3 +1,11 @@
+{-
+    - Problema aplicado no mínimo 15 pontos,
+    - Implementar o ajuste linear
+    - Calcular R²
+    - Plotar em um mesmo plano os pontos e a curva.
+-}
+
+
 n  = 31
 x  = [1..31]
 y  = [11.7, 12.6, 12.6, 13.8, 15.3, 15  ,
