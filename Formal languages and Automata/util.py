@@ -8,15 +8,15 @@ from stats import States
 #q2 = States('q2', (('a', 'q0'), ('b', 'q0'), ('c', 'q0')), False, True) # q2 Definition
 #statsK = (q0, q1, q2)
 
-statsK  = ('S', 'a', 'b', 'aa', 'bb', 'fim')    # Set of states
+statsK  = ('q0', 'q1', 'q2', 'qf')    # Set of states
 alphbt  = ('a', 'b')                            # alphabet
 
-S       = States('S'    , (('a', 'b', 'fim')   , ('b', 'b'))   , True , False )
-a       = States('a'    , (('a', 'fim') , ('b', 'b'))   , False, False )
-b       = States('b'    , (('a', 'c', 'a')   , ('b', 'fim')) , False, False )
-fim     = States('fim'  , (('1', '3') , ('2', '3')) , False, True  )
+q0      = States('q0'   , (('a', 'q0', 'q1') , ('b', 'q0'))    , True , False )
+q1      = States('q1'   , (('a', 'q2')       , ('b', ''))      , False, False )
+q2      = States('q2'   , (('a', 'qf')       , ('b', ''))      , False, False )
+qf      = States('qf'   , (('a', '')         , ('b', ''))      , False, True  )
 
-statsK  = [S, a, b, fim]
+statsK  = [q0, q1, q2, qf]
 
 
 def verifyAllEntries(entry):
@@ -60,8 +60,9 @@ def testAFD(word, statsK):
 #                                  AFND                                           #
 #                                                                                 #
 
-def returnAllStates(state):
-    stt = findStateWithName(state)
+def returnAllStates(state, letter):
+    stt   = findStateWithName(state)
+    newst = ""
 
     if stt == "":
         return
@@ -71,10 +72,12 @@ def returnAllStates(state):
     #print(len(stt.rules[0]))
 
     for j in range(0, len(stt.rules)):
-       for i in range(1, len(stt.rules[j])):
-           print("Estado %s, regras => %s" % (state, stt.rules[j][i]))
+        for i in range(1, len(stt.rules[j])):
+            if stt.rules[j][0] == letter:
+                newst = newst + stt.rules[j][i]
+                print("Estado %s, regras => %s" % (state, stt.rules[j][i]))
 
-    #return (.rules)
+    return (newst)
 
 def concName(word):
     strg = ""
@@ -87,11 +90,13 @@ def concName(word):
 
 
 def concState(word):
+    newStt = ""
+
     for j in range(1, len(word)):
         #print(word[j])
-        returnAllStates(word[j])
+        newStt = newStt + returnAllStates(word[j], word[0])
 
-
+    print(newStt)
 
 
 def createNewState(word):
