@@ -11,10 +11,10 @@ from stats import States
 statsK  = ('q0', 'q1', 'q2', 'qf')    # Set of states
 alphbt  = ('a', 'b')                            # alphabet
 
-q0      = States('q0'   , (('a', 'q0', 'q1') , ('b', 'q0'))    , True , False )
-q1      = States('q1'   , (('a', 'q2', 'q2')       , ('b', ''))      , False, False )
-q2      = States('q2'   , (('a', 'qf', 'q1', 'q2')       , ('b', ''))      , False, False )
-qf      = States('qf'   , (('a', '')         , ('b', ''))      , False, True  )
+q0      = States('q0'   , (('a', 'q2', 'q1')        , ('b', 'q0'))  , True , False )
+q1      = States('q1'   , (('a', 'q2' )         , ('b', ''))    , False, False )
+q2      = States('q2'   , (('a', 'qf' )             , ('b', ''))    , False, False )
+qf      = States('qf'   , (('a', '')                , ('b', ''))    , False, True  )
 
 statsK  = [q0, q1, q2, qf]
 
@@ -71,12 +71,11 @@ def returnAllStates(state, letter):
     #print("Lett: %s" % letter)
 
     for ii in range(0, len(stt.rules)):
-        for jj in range(0, len(stt.rules[ii]) - 1):
-            if stt.rules[ii][0] == letter:
-                newst = newst + stt.rules[ii][jj + 1]
-                print("Teste: %s" % str(stt.rules[ii][jj + 1]))
+        if stt.rules[ii][0] == letter:
+            for jj in range(1, len(stt.rules[ii])):
+                newst = newst + stt.rules[ii][jj]
 
-    print(newst)
+    #print("------------------------------\n")
     return (newst)
 
 def concName(word):
@@ -90,18 +89,19 @@ def concName(word):
 
 
 def concState(word, name):
-    newStt = ""
+    print("Name: %s" % name)
+    for jj in range(1, len(word)):
+        #print(word[jj])
+        print(returnAllStates(word[jj], word[0]))
 
-    print(word)
-    print("W1: %s" % name)
-    newStt = newStt + returnAllStates(name, word[0])
 
-    print("Novostat: %s " % newStt)
 
 
 def createNewState(word, name):
-    concName(word)
-    concState(word, name)
+    newState = concName(word)
+    rules    = concState(word, name)
+
+    #print(newState)
 
 def testAFND(word, statsK):
     # First verification - Verify if all letters are in alphabet  #
@@ -114,6 +114,6 @@ def testAFND(word, statsK):
     for jj in statsK:
         for ii in jj.rules:
             if len(ii) > 2:
-                print("------------------\nName: %s" % jj.name)
+                print("------------------\n")
                 createNewState(ii, jj.name)
 
