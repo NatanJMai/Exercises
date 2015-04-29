@@ -11,13 +11,12 @@ from stats import States
 statsK  = ('q0', 'q1', 'q2', 'qf')    # Set of states
 alphbt  = ('a', 'b')                            # alphabet
 
-q0      = States('q0'   , (('a', 'q2', 'q1')        , ('b', 'q0'))  , True , False )
-q1      = States('q1'   , (('a', 'q2' )         , ('b', ''))    , False, False )
-q2      = States('q2'   , (('a', 'qf' )             , ('b', ''))    , False, False )
-qf      = States('qf'   , (('a', '')                , ('b', ''))    , False, True  )
+q0      = States('q0'   , (('a', 'q0', 'q1')       , ('b', 'q0', 'q2'))  , True , False )
+q1      = States('q1'   , (('a', 'qf')             , ('b', ''))    , False, False )
+q2      = States('q2'   , (('a', '' )              , ('b', 'qf'))    , False, False )
+qf      = States('qf'   , (('a', 'qf')             , ('b', 'qf'))    , False, True  )
 
 statsK  = [q0, q1, q2, qf]
-
 
 def verifyAllEntries(entry):
     for j in entry:
@@ -35,6 +34,7 @@ def returnNextState(word, state):
     for ind in range(0, len(state.rules)):
         if word in state.rules[ind]:
             return (findStateWithName(state.rules[ind][1]))
+
     return ""
 
 def testAFD(word, statsK):
@@ -60,23 +60,46 @@ def testAFD(word, statsK):
 #                                  AFND                                           #
 #                                                                                 #
 
-def returnAllStates(state, letter):
-    stt   = findStateWithName(state)
-    newst = ""
+##
+## @TODO
+## * Criar os estados
+## * Criar as regras para cada estado
+## * Organizar os estados
 
-    if stt == "":
+def returnStatesWhenALetter(name, letter):
+    state = findStateWithName(name)
+    retur = []
+
+    if state == "":
         return
 
-    #print("Sta: %s" % state)
-    #print("Lett: %s" % letter)
+    for jj in state.rules:
+        if jj[0] == letter:
+            for ii in range(1, len(jj)):
+                retur.append(jj[ii])
 
-    for ii in range(0, len(stt.rules)):
-        if stt.rules[ii][0] == letter:
-            for jj in range(1, len(stt.rules[ii])):
-                newst = newst + stt.rules[ii][jj]
+    return retur
 
-    #print("------------------------------\n")
-    return (newst)
+
+def returnAllStates(state, letter):
+    stt   = findStateWithName(state)
+    newst = []
+    full  = []
+    nextStates = returnStatesWhenALetter(state, letter)
+
+    if stt == "" or nextStates == "":
+        return
+
+    for jj in nextStates:
+        newst.append(returnStatesWhenALetter(jj, letter))
+
+    for hh in newst:
+        for ii in hh:
+            full.append(ii)
+
+    #print(nextStates)
+    return (full)
+
 
 def concName(word):
     strg = ""
@@ -88,28 +111,28 @@ def concName(word):
         return strg
 
 
-def concState(word, name):
-    print("Name: %s" % name)
+def concState(word, letter):
+    print("Word: %s" % str(word))
+    print("Letter: %s" % letter)
+
     for jj in range(1, len(word)):
-        #print(word[jj])
-        print(returnAllStates(word[jj], word[0]))
-
-
+        return (returnAllStates(word[jj], letter))
 
 
 def createNewState(word, name):
     newState = concName(word)
-    rules    = concState(word, name)
+    print("NewState: %s " % newState)
 
-    #print(newState)
+    rules    = concState(word, word[0][0])
+    print("Rules (%s) => %s" % (word[0][0], rules))
+
+
 
 def testAFND(word, statsK):
     # First verification - Verify if all letters are in alphabet  #
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
         return
-
-
 
     for jj in statsK:
         for ii in jj.rules:
