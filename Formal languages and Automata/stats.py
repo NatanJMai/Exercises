@@ -4,3 +4,6 @@ class States(object):
         self.rules     = rules
         self.start     = start
         self.final     = final
+
+    def setRules(self, rules):
+        self.rules = rules

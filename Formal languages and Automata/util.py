@@ -9,12 +9,12 @@ from stats import States
 #statsK = (q0, q1, q2)
 
 statsK  = ('q0', 'q1', 'q2', 'qf')    # Set of states
-alphbt  = ('a', 'b')                            # alphabet
+alphbt  = ['a', 'b']                            # alphabet
 
-q0      = States('q0'   , (('a', 'q0', 'q1')       , ('b', 'q0', 'q2'))  , True , False )
-q1      = States('q1'   , (('a', 'qf')             , ('b', ''))    , False, False )
-q2      = States('q2'   , (('a', '' )              , ('b', 'qf'))    , False, False )
-qf      = States('qf'   , (('a', 'qf')             , ('b', 'qf'))    , False, True  )
+q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0', 'q2']]  , True , False )
+q1      = States('q1'   , [['a', 'qf']             , ['b', '']]    , False, False )
+q2      = States('q2'   , [['a', '' ]              , ['b', 'qf']]    , False, False )
+qf      = States('qf'   , [['a', 'qf']             , ['b', 'qf']]    , False, True  )
 
 statsK  = [q0, q1, q2, qf]
 
@@ -56,15 +56,10 @@ def testAFD(word, statsK):
         print("FINAL - REJEITO")
         return
 
-#                                                                                 #
-#                                  AFND                                           #
-#                                                                                 #
 
-##
-## @TODO
-## * Criar os estados
-## * Criar as regras para cada estado
-## * Organizar os estados
+##     AFND     ##
+##              ##
+
 
 def returnStatesWhenALetter(name, letter):
     state = findStateWithName(name)
@@ -77,28 +72,7 @@ def returnStatesWhenALetter(name, letter):
         if jj[0] == letter:
             for ii in range(1, len(jj)):
                 retur.append(jj[ii])
-
     return retur
-
-
-def returnAllStates(state, letter):
-    stt   = findStateWithName(state)
-    newst = []
-    full  = []
-    nextStates = returnStatesWhenALetter(state, letter)
-
-    if stt == "" or nextStates == "":
-        return
-
-    for jj in nextStates:
-        newst.append(returnStatesWhenALetter(jj, letter))
-
-    for hh in newst:
-        for ii in hh:
-            full.append(ii)
-
-    #print(nextStates)
-    return (full)
 
 
 def concName(word):
@@ -109,23 +83,48 @@ def concName(word):
 
     if findStateWithName(strg) == "":
         return strg
+    else:
+        return ""
 
-
-def concState(word, letter):
-    print("Word: %s" % str(word))
-    print("Letter: %s" % letter)
-
-    for jj in range(1, len(word)):
-        return (returnAllStates(word[jj], letter))
-
-
+# Create a new state and return its states like a tuple
 def createNewState(word, name):
-    newState = concName(word)
-    print("NewState: %s " % newState)
+    newStateName = concName(word)
 
-    rules    = concState(word, word[0][0])
-    print("Rules (%s) => %s" % (word[0][0], rules))
+    if newStateName == "":
+        return ""
 
+    if findStateWithName(newStateName) == "":
+        newState     = States(newStateName, "", False, False)
+        statsK.append(newState)
+        return word[1:]
+
+def updateRule(stateName):
+    name = ""
+    fullList = []
+    lists = []
+
+    for ii in stateName:
+        name = name + ii
+
+    state = findStateWithName(name)
+
+    if state == "":
+        return
+
+    for alp in alphbt:
+        states = []
+        lists  = [alp]
+        for nn in stateName:
+            states.append(returnStatesWhenALetter(nn, alp))
+
+        for ss in states:
+            for jj in ss:
+                if jj != "" and jj not in lists:
+                    print("JJ: %s" % jj)
+                    lists.append(jj)
+
+        fullList.append(lists)
+    state.setRules(fullList)
 
 
 def testAFND(word, statsK):
@@ -137,6 +136,12 @@ def testAFND(word, statsK):
     for jj in statsK:
         for ii in jj.rules:
             if len(ii) > 2:
-                print("------------------\n")
-                createNewState(ii, jj.name)
+                name = createNewState(ii, jj.name)
+                if name != "":
+                    updateRule(name)
 
+
+    for jj in statsK:
+        print("\n----------------------------------\n")
+        print(jj.name)
+        print(jj.rules)
