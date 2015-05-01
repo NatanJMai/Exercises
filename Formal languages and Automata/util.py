@@ -10,16 +10,16 @@ from stats import States
 
 alphbt  = ['a', 'b']                            # alphabet
 
-q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0', 'q2']]  , True , False )
-q1      = States('q1'   , [['a', 'qf']             , ['b', '']]          , False, False )
-q2      = States('q2'   , [['a', '' ]              , ['b', 'qf']]        , False, False )
-qf      = States('qf'   , [['a', 'qf']             , ['b', 'qf']]        , False, True  )
+q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0']]  , True , False )
+q1      = States('q1'   , [['a', 'q2']             , ['b', '']]    , False, False )
+q2      = States('q2'   , [['a', 'qf' ]            , ['b', '']]    , False, False )
+qf      = States('qf'   , [['a', '']               , ['b', '']]    , False, True  )
 
 statsK  = [q0, q1, q2, qf]
 
 def verifyAllEntries(entry):
-    for j in entry:
-        if not j in alphbt:
+    for ent in entry:
+        if not ent in alphbt:
             return False
 
 def findStateWithName(name):
@@ -30,9 +30,9 @@ def findStateWithName(name):
     return ""
 
 def returnNextState(word, state):
-    for ind in range(0, len(state.rules)):
-        if word in state.rules[ind]:
-            return (findStateWithName(state.rules[ind][1]))
+    for rul in range(0, len(state.rules)):
+        if word in state.rules[rul]:
+            return (findStateWithName(state.rules[rul][1]))
 
     return ""
 
@@ -43,9 +43,9 @@ def testAFD(word, statsK):
 
     stateNow = statsK[0]
 
-    for w in word:
-        stateNow = returnNextState(w, stateNow)
-        print("     w-> %s, state -> %s" %(w, stateNow.name))
+    for wrd in word:
+        stateNow = returnNextState(wrd, stateNow)
+        print("     w-> %s, state -> %s" %(wrd, stateNow.name))
         if stateNow.final == True:
             print("FINAL - ACEITO")
             return
@@ -66,18 +66,18 @@ def returnStatesWhenALetter(name, letter):
     if state == "":
         return
 
-    for jj in state.rules:
-        if jj[0] == letter:
-            for ii in range(1, len(jj)):
-                retur.append(jj[ii])
+    for rul in state.rules:
+        if rul[0] == letter:
+            for ii in range(1, len(rul)):
+                retur.append(rul[ii])
     return retur
 
 
 def concName(word):
     strg = ""
 
-    for j in range(1, len(word)):
-        strg = strg + word[j]
+    for ind in range(1, len(word)):
+        strg = strg + word[ind]
 
     if findStateWithName(strg) == "":
         return strg
@@ -87,24 +87,27 @@ def concName(word):
 # Create a new state and return its states like a tuple
 def createNewState(word, name, final):
     newStateName = concName(word)
+    lastState    = word[len(word) - 1]
+
 
     if newStateName == "":
         return ""
 
-    final = findStateWithName(newStateName[len(newStateName) - 2:]).final
+    final = findStateWithName(lastState).final
 
     if findStateWithName(newStateName) == "":
         newState     = States(newStateName, "", False, final)
         statsK.append(newState)
         return word[1:]
 
+
 def updateRule(stateName):
     name        = ""
     fullList    = []
     lists       = []
 
-    for ii in stateName:
-        name = name + ii
+    for lett in stateName:
+        name = name + lett
 
     state = findStateWithName(name)
 
@@ -114,11 +117,11 @@ def updateRule(stateName):
     for alp in alphbt:
         states = []
         lists  = [alp]
-        for nn in stateName:
-            states.append(returnStatesWhenALetter(nn, alp))
+        for name in stateName:
+            states.append(returnStatesWhenALetter(name, alp))
 
-        for ss in states:
-            for jj in ss:
+        for stt in states:
+            for jj in stt:
                 if jj != "" and jj not in lists:
                     lists.append(jj)
 
@@ -128,15 +131,15 @@ def updateRule(stateName):
 def concList(listA):
     newStr = ""
 
-    for jj in listA:
-        newStr = newStr + jj
+    for lst in listA:
+        newStr = newStr + lst
 
     return newStr
 
 def isDeleted(stateName):
-    for jj in statsK:
-        for rul in jj.rules:
-            if concList(rul[1:]) == stateName and jj.name != stateName:
+    for state in statsK:
+        for rul in state.rules:
+            if concList(rul[1:]) == stateName and state.name != stateName:
                 return True
     return False
 
@@ -148,32 +151,38 @@ def verifyUtils():
 
 
 def testAFND(word, statsK):
+    # TODO
+    # Verify the final statement of last element of state's tuple.
+
+
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
         return
 
-    for jj in statsK:
-        for ii in jj.rules:
-            if len(ii) > 2:
-                name = createNewState(ii, jj.name, jj.final)
+    for state in statsK:
+        for rul in state.rules:
+            if len(rul) > 2:
+                name = createNewState(rul, state.name, state.final)
                 if name != "":
                     updateRule(name)
 
     verifyUtils()
 
-    for jj in statsK:
+    for state in statsK:
         full = []
-        for rl in jj.rules:
-            li = [rl[0]]
-            li.append(concList(rl[1:]))
+        for rul in state.rules:
+            li = [rul[0]]
+            li.append(concList(rul[1:]))
             full.append(li)
 
-        jj.setRules(full)
+        state.setRules(full)
+
+        #Just print
+    for spp in statsK:
+        print("\n----------------------\n")
+        print(spp.name)
+        print(spp.rules)
+
 
     return statsK
 
-    #Just print
-'''    for spp in statsK:
-        print("\n----------------------\n")
-        print(spp.name)
-        print(spp.rules) '''
