@@ -10,3 +10,6 @@ class States(object):
 
     def setName(self, name):
         self.name = name
+
+    def setFinal(self, final):
+        self.final = final

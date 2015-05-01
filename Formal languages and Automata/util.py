@@ -8,13 +8,12 @@ from stats import States
 #q2 = States('q2', (('a', 'q0'), ('b', 'q0'), ('c', 'q0')), False, True) # q2 Definition
 #statsK = (q0, q1, q2)
 
-statsK  = ('q0', 'q1', 'q2', 'qf')    # Set of states
 alphbt  = ['a', 'b']                            # alphabet
 
 q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0', 'q2']]  , True , False )
-q1      = States('q1'   , [['a', 'qf']             , ['b', '']]    , False, False )
-q2      = States('q2'   , [['a', '' ]              , ['b', 'qf']]    , False, False )
-qf      = States('qf'   , [['a', 'qf']             , ['b', 'qf']]    , False, True  )
+q1      = States('q1'   , [['a', 'qf']             , ['b', '']]          , False, False )
+q2      = States('q2'   , [['a', '' ]              , ['b', 'qf']]        , False, False )
+qf      = States('qf'   , [['a', 'qf']             , ['b', 'qf']]        , False, True  )
 
 statsK  = [q0, q1, q2, qf]
 
@@ -86,14 +85,16 @@ def concName(word):
         return ""
 
 # Create a new state and return its states like a tuple
-def createNewState(word, name):
+def createNewState(word, name, final):
     newStateName = concName(word)
 
     if newStateName == "":
         return ""
 
+    final = findStateWithName(newStateName[len(newStateName) - 2:]).final
+
     if findStateWithName(newStateName) == "":
-        newState     = States(newStateName, "", False, False)
+        newState     = States(newStateName, "", False, final)
         statsK.append(newState)
         return word[1:]
 
@@ -154,13 +155,25 @@ def testAFND(word, statsK):
     for jj in statsK:
         for ii in jj.rules:
             if len(ii) > 2:
-                name = createNewState(ii, jj.name)
+                name = createNewState(ii, jj.name, jj.final)
                 if name != "":
                     updateRule(name)
 
     verifyUtils()
 
     for jj in statsK:
-        print("\n----------------------------------\n")
-        print(jj.name)
-        print(jj.rules)
+        full = []
+        for rl in jj.rules:
+            li = [rl[0]]
+            li.append(concList(rl[1:]))
+            full.append(li)
+
+        jj.setRules(full)
+
+    return statsK
+
+    #Just print
+'''    for spp in statsK:
+        print("\n----------------------\n")
+        print(spp.name)
+        print(spp.rules) '''

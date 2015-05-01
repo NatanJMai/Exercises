@@ -17,7 +17,7 @@ from util  import *
 
 def main():
     entry = raw_input("Entry: ")
-    testAFND(entry, statsK)
+    testAFD(entry, testAFND(entry, statsK))
 
 if __name__ == '__main__':
     main()
