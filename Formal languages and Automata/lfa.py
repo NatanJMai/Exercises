@@ -15,6 +15,14 @@
 from stats import States
 from util  import *
 
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : lfa.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Main function.
+#------------------------------------------------------------
+
 def main():
     entry = raw_input("Entry: ")
     testAFD(entry, testAFND(entry, statsK))

@@ -10,18 +10,32 @@ from stats import States
 
 alphbt  = ['a', 'b']                            # alphabet
 
-q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0']]  , True , False )
-q1      = States('q1'   , [['a', 'q2']             , ['b', '']]    , False, False )
-q2      = States('q2'   , [['a', 'qf' ]            , ['b', '']]    , False, False )
-qf      = States('qf'   , [['a', '']               , ['b', '']]    , False, True  )
+s      = States('s'   , [['a', 's', 'a']       , ['b', 's']]    , True , False )
+a      = States('a'   , [['a', 'f', 'a']       , ['b', 's']]    , False, False )
+f      = States('f'   , [['a', 'f' ]           , ['b', 's']]    , False, True )
 
-statsK  = [q0, q1, q2, qf]
+statsK  = [s, a, f]
 
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Verify if all letters are in the entry
+#-------------------------------------------------------------
 def verifyAllEntries(entry):
     for ent in entry:
         if not ent in alphbt:
             return False
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Find a state with a word
+#-------------------------------------------------------------
 def findStateWithName(name):
     for state in statsK:
         if state.name == name:
@@ -29,6 +43,14 @@ def findStateWithName(name):
 
     return ""
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Return the next state according a word
+#-------------------------------------------------------------
 def returnNextState(word, state):
     for rul in range(0, len(state.rules)):
         if word in state.rules[rul]:
@@ -36,6 +58,14 @@ def returnNextState(word, state):
 
     return ""
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: All the others tests to AFD
+#-------------------------------------------------------------
 def testAFD(word, statsK):
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
@@ -55,10 +85,25 @@ def testAFD(word, statsK):
         return
 
 
-##     AFND     ##
-##              ##
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Here start the tests to AFND
+#-------------------------------------------------------------
 
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Return all possibles states of a state according
+#          a letter
+#-------------------------------------------------------------
 def returnStatesWhenALetter(name, letter):
     state = findStateWithName(name)
     retur = []
@@ -73,6 +118,13 @@ def returnStatesWhenALetter(name, letter):
     return retur
 
 
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Concatenate the name of new state.
+#------------------------------------------------------------
 def concName(word):
     strg = ""
 
@@ -84,11 +136,17 @@ def concName(word):
     else:
         return ""
 
-# Create a new state and return its states like a tuple
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Rules to create a new state
+#------------------------------------------------------------
 def createNewState(word, name, final):
     newStateName = concName(word)
     lastState    = word[len(word) - 1]
-
 
     if newStateName == "":
         return ""
@@ -101,6 +159,13 @@ def createNewState(word, name, final):
         return word[1:]
 
 
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Update the rules of state.
+#------------------------------------------------------------
 def updateRule(stateName):
     name        = ""
     fullList    = []
@@ -128,6 +193,14 @@ def updateRule(stateName):
         fullList.append(lists)
     state.setRules(fullList)
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Concatenate a list.
+#-------------------------------------------------------------
 def concList(listA):
     newStr = ""
 
@@ -136,6 +209,14 @@ def concList(listA):
 
     return newStr
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: The state will be deleted?
+#-------------------------------------------------------------
 def isDeleted(stateName):
     for state in statsK:
         for rul in state.rules:
@@ -143,6 +224,15 @@ def isDeleted(stateName):
                 return True
     return False
 
+
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Verify all the states, if it will be deleted and
+#          it isn't one start then remove it
+#-------------------------------------------------------------
 def verifyUtils():
     for stt in statsK:
         if not isDeleted(stt.name) and stt.start == False:
@@ -150,11 +240,14 @@ def verifyUtils():
             verifyUtils()
 
 
+#-------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: All others tests to AFND
+#-------------------------------------------------------------
 def testAFND(word, statsK):
-    # TODO
-    # Verify the final statement of last element of state's tuple.
-
-
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
         return
@@ -177,12 +270,4 @@ def testAFND(word, statsK):
 
         state.setRules(full)
 
-        #Just print
-    for spp in statsK:
-        print("\n----------------------\n")
-        print(spp.name)
-        print(spp.rules)
-
-
     return statsK
-
