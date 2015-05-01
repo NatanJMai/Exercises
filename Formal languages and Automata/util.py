@@ -38,7 +38,6 @@ def returnNextState(word, state):
     return ""
 
 def testAFD(word, statsK):
-    # First verification - Verify if all letters are in alphabet  #
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
         return
@@ -99,9 +98,9 @@ def createNewState(word, name):
         return word[1:]
 
 def updateRule(stateName):
-    name = ""
-    fullList = []
-    lists = []
+    name        = ""
+    fullList    = []
+    lists       = []
 
     for ii in stateName:
         name = name + ii
@@ -120,15 +119,34 @@ def updateRule(stateName):
         for ss in states:
             for jj in ss:
                 if jj != "" and jj not in lists:
-                    print("JJ: %s" % jj)
                     lists.append(jj)
 
         fullList.append(lists)
     state.setRules(fullList)
 
+def concList(listA):
+    newStr = ""
+
+    for jj in listA:
+        newStr = newStr + jj
+
+    return newStr
+
+def isDeleted(stateName):
+    for jj in statsK:
+        for rul in jj.rules:
+            if concList(rul[1:]) == stateName and jj.name != stateName:
+                return True
+    return False
+
+def verifyUtils():
+    for stt in statsK:
+        if not isDeleted(stt.name) and stt.start == False:
+            statsK.remove(stt)
+            verifyUtils()
+
 
 def testAFND(word, statsK):
-    # First verification - Verify if all letters are in alphabet  #
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
         return
@@ -140,6 +158,7 @@ def testAFND(word, statsK):
                 if name != "":
                     updateRule(name)
 
+    verifyUtils()
 
     for jj in statsK:
         print("\n----------------------------------\n")

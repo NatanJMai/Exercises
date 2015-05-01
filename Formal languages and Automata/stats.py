@@ -7,3 +7,6 @@ class States(object):
 
     def setRules(self, rules):
         self.rules = rules
+
+    def setName(self, name):
+        self.name = name
