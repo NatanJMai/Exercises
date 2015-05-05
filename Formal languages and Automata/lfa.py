@@ -12,7 +12,7 @@
 #    (dizendo que não precisa aplicar a determinização) ou
 #        então deve aplicar a determinização e gerar o AFD resultante como saída.
 
-from stats import States
+from states import States
 from util  import *
 
 #------------------------------------------------------------
@@ -22,10 +22,9 @@ from util  import *
 #   EMAIL: natan.mai@hotmail.com
 #   FUNCT: Main function.
 #------------------------------------------------------------
-
 def main():
-    entry = raw_input("Entry: ")
-    testAFD(entry, testAFND(entry, statsK))
+    init()
+
 
 if __name__ == '__main__':
     main()

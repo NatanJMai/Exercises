@@ -8,13 +8,91 @@ from stats import States
 #q2 = States('q2', (('a', 'q0'), ('b', 'q0'), ('c', 'q0')), False, True) # q2 Definition
 #statsK = (q0, q1, q2)
 
-alphbt  = ['a', 'b']                            # alphabet
+alphbt  = ['0', '1']                            # alphabet
 
-s      = States('s'   , [['a', 's', 'a']       , ['b', 's']]    , True , False )
-a      = States('a'   , [['a', 'f', 'a']       , ['b', 's']]    , False, False )
-f      = States('f'   , [['a', 'f' ]           , ['b', 's']]    , False, True )
+a       = States('q1'   , [['0', 'q1', 'q2']       , ['1', 'q1']]         , True , False )
+b       = States('q2'   , [['0', 'q3']             , ['1', 'q2', 'q3']]   , False, False )
+c       = States('q3'   , [['0', '' ]              , ['1', '']]           , False, True )
 
-statsK  = [s, a, f]
+statsK  = [a, b, c]
+
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Get the type according the definition.
+#------------------------------------------------------------
+def getTypeAF():
+    for stat in statsK:
+        for rul in stat.rules:
+            if len(rul) > 2:
+                return True
+    return False
+
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 05/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Verify if all states are created
+#------------------------------------------------------------
+def verifyAllStates():
+    for stat in statsK:
+        for rul in stat.rules:
+            for name in range(1, len(rul)):
+                if rul[name] != "":
+                    if findStateWithName(rul[name]) == "":
+                        return False
+    return True
+
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 05/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Verify if all lyrics are created
+#------------------------------------------------------------
+def verifyAllLetters():
+    for stat in statsK:
+        for rul in stat.rules:
+            if rul[0] != "":
+                if not rul[0] in alphbt:
+                    return False
+    return True
+
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 01/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Verify if is an AFND or AFD
+#------------------------------------------------------------
+def init():
+
+    if not verifyAllStates():
+        print("ERROR - 001")
+        return
+
+    if not verifyAllLetters():
+        print("ERROR - 002")
+        return
+
+    entry = raw_input("Entry: ")
+
+    if entry == "":
+        print("ERROR - 003")
+        return
+
+    if getTypeAF():
+        testAFD(entry, testAFND(entry, statsK))
+    else:
+        testAFD(entry, statsK)
+
 
 #-------------------------------------------------------------
 #   NAME : Natan J. Mai
