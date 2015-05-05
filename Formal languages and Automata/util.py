@@ -1,21 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from stats import States
+from states import States
 
-#q0 = States('q0', (('a', 'q0'), ('b', 'q1'), ('c', 'q2')), True, False ) # q0 Definition
-#q1 = States('q1', (('a', 'q1'), ('b', 'q0'), ('c', 'q0')), False, False ) # q1 Definition
-#q2 = States('q2', (('a', 'q0'), ('b', 'q0'), ('c', 'q0')), False, True) # q2 Definition
-#statsK = (q0, q1, q2)
+alphbt  = ['a', 'b', 'c']                            # alphabet
 
-alphbt  = ['0', '1']                            # alphabet
+q0       = States('q0'   , [['a', 'q1']       , ['b', 'q2'], ['c', '']]         , True , False )
+q1       = States('q1'   , [['a', '']         , ['b', 'q0'], ['c', 'q3']]       , False, False )
+q2       = States('q2'   , [['a', 'q3']       , ['b', 'q4'], ['c', '']]         , False, False )
+q3       = States('q3'   , [['a', '']         , ['b', '']  , ['c', 'q4']]       , False, False )
+q4       = States('q4'   , [['a', 'q3']       , ['b', '']  , ['c', 'q5']]       , False, False )
+q5       = States('q5'   , [['a', '']         , ['b', '']  , ['c', '']]         , False, True )
 
-a       = States('q1'   , [['0', 'q1', 'q2']       , ['1', 'q1']]         , True , False )
-b       = States('q2'   , [['0', 'q3']             , ['1', 'q2', 'q3']]   , False, False )
-c       = States('q3'   , [['0', '' ]              , ['1', '']]           , False, True )
-
-statsK  = [a, b, c]
-
+statsK  = [q0, q1, q2, q3, q4, q5]
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -153,6 +150,11 @@ def testAFD(word, statsK):
 
     for wrd in word:
         stateNow = returnNextState(wrd, stateNow)
+
+        if stateNow == "":
+            print("FINAL - REJEITO")
+            return
+
         print("     w-> %s, state -> %s" %(wrd, stateNow.name))
         if stateNow.final == True:
             print("FINAL - ACEITO")
