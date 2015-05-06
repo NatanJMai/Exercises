@@ -13,7 +13,7 @@
 #        então deve aplicar a determinização e gerar o AFD resultante como saída.
 
 from states import States
-from util  import *
+from util   import *
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -23,7 +23,7 @@ from util  import *
 #   FUNCT: Main function.
 #------------------------------------------------------------
 def main():
-    init()
+    testes()
 
 
 if __name__ == '__main__':

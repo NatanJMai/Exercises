@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from states import States
+import unittest
 
 alphbt  = ['a', 'b', 'c']                            # alphabet
 
@@ -69,26 +70,27 @@ def verifyAllLetters():
 #   EMAIL: natan.mai@hotmail.com
 #   FUNCT: Verify if is an AFND or AFD
 #------------------------------------------------------------
-def init():
+def init(entry):
 
     if not verifyAllStates():
         print("ERROR - 001")
-        return
+        return False
 
     if not verifyAllLetters():
         print("ERROR - 002")
-        return
+        return False
 
-    entry = raw_input("Entry: ")
+    #entry = raw_input("Entry: ")
 
     if entry == "":
         print("ERROR - 003")
-        return
+        return False
 
     if getTypeAF():
-        testAFD(entry, testAFND(entry, statsK))
+        return testAFD(entry, testAFND(entry, statsK))
+
     else:
-        testAFD(entry, statsK)
+        return testAFD(entry, statsK)
 
 
 #-------------------------------------------------------------
@@ -152,17 +154,17 @@ def testAFD(word, statsK):
         stateNow = returnNextState(wrd, stateNow)
 
         if stateNow == "":
-            print("FINAL - REJEITO")
-            return
+          #  print("FINAL - REJEITO")
+            return False
 
-        print("     w-> %s, state -> %s" %(wrd, stateNow.name))
+        #print("     w-> %s, state -> %s" %(wrd, stateNow.name))
         if stateNow.final == True:
-            print("FINAL - ACEITO")
-            return
+         #   print("FINAL - ACEITO")
+            return True
 
     if stateNow.final == False:
-        print("FINAL - REJEITO")
-        return
+        #print("FINAL - REJEITO")
+        return False
 
 
 
@@ -351,3 +353,26 @@ def testAFND(word, statsK):
         state.setRules(full)
 
     return statsK
+
+class MyTest(unittest.TestCase):
+    def teste(self):
+        self.assertEqual(init('bbc'), True)
+
+    def teste2(self):
+        self.assertEqual(init('accc'), True)
+
+    def teste3(self):
+        self.assertEqual(init('bacc'), True)
+
+    def teste4(self):
+        self.assertEqual(init('bbacc'), True)
+
+    def teste5(self):
+        self.assertEqual(init('bbbaca'), False)
+
+    def teste6(self):
+        self.assertEqual(init('abbacb'), False)
+
+def testes():
+    unittest.main()
+
