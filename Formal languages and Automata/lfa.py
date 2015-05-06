@@ -23,7 +23,7 @@ from util   import *
 #   FUNCT: Main function.
 #------------------------------------------------------------
 def main():
-    testes()
+    init()
 
 
 if __name__ == '__main__':

@@ -4,16 +4,15 @@
 from states import States
 import unittest
 
-alphbt  = ['a', 'b', 'c']                            # alphabet
 
-q0       = States('q0'   , [['a', 'q1']       , ['b', 'q2'], ['c', '']]         , True , False )
-q1       = States('q1'   , [['a', '']         , ['b', 'q0'], ['c', 'q3']]       , False, False )
-q2       = States('q2'   , [['a', 'q3']       , ['b', 'q4'], ['c', '']]         , False, False )
-q3       = States('q3'   , [['a', '']         , ['b', '']  , ['c', 'q4']]       , False, False )
-q4       = States('q4'   , [['a', 'q3']       , ['b', '']  , ['c', 'q5']]       , False, False )
-q5       = States('q5'   , [['a', '']         , ['b', '']  , ['c', '']]         , False, True )
+alphbt  = ['a', 'b']                            # alphabet
 
-statsK  = [q0, q1, q2, q3, q4, q5]
+q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0']]  , True , False )
+q1      = States('q1'   , [['a', 'q2']             , ['b', '']]    , False, False )
+q2      = States('q2'   , [['a', 'qf' ]            , ['b', '']]    , False, False )
+qf      = States('qf'   , [['a', '']               , ['b', '']]    , False, True  )
+
+statsK  = [q0, q1, q2, qf]
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -65,12 +64,32 @@ def verifyAllLetters():
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
+#   DATE : 05/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Accept or Reject messages.
+#------------------------------------------------------------
+def acceptReject(variable):
+    if variable == True:
+        print("OK - ACCEPT!")
+        return True
+
+    else:
+        print("NOPE - REJECT!")
+        return False
+
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
 #   DATE : 01/05/2015
 #   FILE : util.py
 #   EMAIL: natan.mai@hotmail.com
 #   FUNCT: Verify if is an AFND or AFD
 #------------------------------------------------------------
-def init(entry):
+def init():
+    print("(1) Testar AFD\n(2) Testar AFND\n(3) Transformar AFND em AFD")
+
+    opt = int(raw_input("> "))
 
     if not verifyAllStates():
         print("ERROR - 001")
@@ -80,17 +99,38 @@ def init(entry):
         print("ERROR - 002")
         return False
 
-    #entry = raw_input("Entry: ")
+    entry = raw_input("Entrada: ")
 
-    if entry == "":
+    if entry == "" or verifyAllEntries(entry) == False:
         print("ERROR - 003")
         return False
 
-    if getTypeAF():
-        return testAFD(entry, testAFND(entry, statsK))
+    if opt == 1:
+        if getTypeAF() == True:
+            print("A maquina é como AFD!")
+            return False
+
+        return acceptReject(testAFD(entry, statsK))
+
+    elif opt == 2:
+        if getTypeAF() != True:
+            print("A maquina é como AFND!")
+            return False
+
+        return acceptReject(testAFD(entry, testAFND(statsK)))
 
     else:
-        return testAFD(entry, statsK)
+        if getTypeAF() != True:
+            print("A maquina é como AFND!")
+            return False
+
+        spp = testAFND(statsK)
+
+        for stt in spp:
+            print("----------------------")
+            print(stt.name)
+            for rul in stt.rules:
+                print("%s" % rul)
 
 
 #-------------------------------------------------------------
@@ -146,7 +186,7 @@ def returnNextState(word, state):
 def testAFD(word, statsK):
     if verifyAllEntries(word) == False:
         print("The alphabet is wrong!")
-        return
+        return False
 
     stateNow = statsK[0]
 
@@ -329,10 +369,8 @@ def verifyUtils():
 #   EMAIL: natan.mai@hotmail.com
 #   FUNCT: All others tests to AFND
 #-------------------------------------------------------------
-def testAFND(word, statsK):
-    if verifyAllEntries(word) == False:
-        print("The alphabet is wrong!")
-        return
+def testAFND(statsK):
+
 
     for state in statsK:
         for rul in state.rules:
@@ -372,6 +410,12 @@ class MyTest(unittest.TestCase):
 
     def teste6(self):
         self.assertEqual(init('abbacb'), False)
+
+    def teste7(self):
+        self.assertEqual(init('c'), False)
+
+    def teste8(self):
+        self.assertEqual(init('bacacc'), True)
 
 def testes():
     unittest.main()
