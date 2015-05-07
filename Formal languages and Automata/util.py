@@ -4,15 +4,16 @@
 from states import States
 import unittest
 
+alphbt  = ['a', 'b', 'c']                            # alphabet
 
-alphbt  = ['a', 'b']                            # alphabet
+q0       = States('q0'   , [['a', 'q1']       , ['b', 'q2'], ['c', '']]         , True , False )
+q1       = States('q1'   , [['a', '']         , ['b', 'q0'], ['c', 'q3']]       , False, False )
+q2       = States('q2'   , [['a', 'q3']       , ['b', 'q4'], ['c', '']]         , False, False )
+q3       = States('q3'   , [['a', '']         , ['b', '']  , ['c', 'q4']]       , False, False )
+q4       = States('q4'   , [['a', 'q3']       , ['b', '']  , ['c', 'q5']]       , False, False )
+q5       = States('q5'   , [['a', '']         , ['b', '']  , ['c', '']]         , False, True )
 
-q0      = States('q0'   , [['a', 'q0', 'q1']       , ['b', 'q0']]  , True , False )
-q1      = States('q1'   , [['a', 'q2']             , ['b', '']]    , False, False )
-q2      = States('q2'   , [['a', 'qf' ]            , ['b', '']]    , False, False )
-qf      = States('qf'   , [['a', '']               , ['b', '']]    , False, True  )
-
-statsK  = [q0, q1, q2, qf]
+statsK  = [q0, q1, q2, q3, q4, q5]
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -71,11 +72,11 @@ def verifyAllLetters():
 #------------------------------------------------------------
 def acceptReject(variable):
     if variable == True:
-        print("OK - ACCEPT!")
+        print("ACCEPT!")
         return True
 
     else:
-        print("NOPE - REJECT!")
+        print("REJECT!")
         return False
 
 
@@ -87,7 +88,7 @@ def acceptReject(variable):
 #   FUNCT: Verify if is an AFND or AFD
 #------------------------------------------------------------
 def init():
-    print("(1) Testar AFD\n(2) Testar AFND\n(3) Transformar AFND em AFD")
+    print("(1) Testar AFD\n(2) Testar AFND\n(3) Transformar AFND em AFD\n(4) Rodar testes")
 
     opt = int(raw_input("> "))
 
@@ -99,11 +100,11 @@ def init():
         print("ERROR - 002")
         return False
 
-    entry = raw_input("Entrada: ")
-
-    if entry == "" or verifyAllEntries(entry) == False:
-        print("ERROR - 003")
-        return False
+    if opt != 4:
+        entry = raw_input("Entrada: ")
+        if entry == "" or verifyAllEntries(entry) == False:
+            print("ERROR - 003")
+            return False
 
     if opt == 1:
         if getTypeAF() == True:
@@ -119,7 +120,7 @@ def init():
 
         return acceptReject(testAFD(entry, testAFND(statsK)))
 
-    else:
+    elif opt == 3:
         if getTypeAF() != True:
             print("A maquina é como AFND!")
             return False
@@ -132,6 +133,8 @@ def init():
             for rul in stt.rules:
                 print("%s" % rul)
 
+    elif opt == 4:
+        tests()
 
 #-------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -370,8 +373,6 @@ def verifyUtils():
 #   FUNCT: All others tests to AFND
 #-------------------------------------------------------------
 def testAFND(statsK):
-
-
     for state in statsK:
         for rul in state.rules:
             if len(rul) > 2:
@@ -392,31 +393,79 @@ def testAFND(statsK):
 
     return statsK
 
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 06/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Definitions of tests to run.
+#------------------------------------------------------------
 class MyTest(unittest.TestCase):
-    def teste(self):
-        self.assertEqual(init('bbc'), True)
 
-    def teste2(self):
-        self.assertEqual(init('accc'), True)
+    def test(self):
+        entry = 'bbc'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), True)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), True)
 
-    def teste3(self):
-        self.assertEqual(init('bacc'), True)
+    def test2(self):
+        entry = 'accc'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), True)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), True)
 
-    def teste4(self):
-        self.assertEqual(init('bbacc'), True)
+    def test3(self):
+        entry = 'bacc'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), True)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), True)
 
-    def teste5(self):
-        self.assertEqual(init('bbbaca'), False)
+    def test4(self):
+        entry = 'bbacc'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), True)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), True)
 
-    def teste6(self):
-        self.assertEqual(init('abbacb'), False)
+    def test5(self):
+        entry = 'bbbaca'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), False)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), False)
 
-    def teste7(self):
-        self.assertEqual(init('c'), False)
+    def test6(self):
+        entry = 'abbacb'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), False)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), False)
 
-    def teste8(self):
-        self.assertEqual(init('bacacc'), True)
+    def test7(self):
+        entry = 'c'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), False)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), False)
 
-def testes():
+    def test8(self):
+        entry = 'bacacc'
+        if getTypeAF() == True:
+            self.assertEqual(acceptReject(testAFD(entry, testAFND(statsK))), True)
+        else:
+            self.assertEqual(acceptReject(testAFD(entry, statsK)), True)
+
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 06/05/2015
+#   FILE : util.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Running tests
+#------------------------------------------------------------
+def tests():
     unittest.main()
 
