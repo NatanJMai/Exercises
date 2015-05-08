@@ -13,7 +13,7 @@ q3       = States('q3'   , [['a', '']         , ['b', '']  , ['c', 'q4']]       
 q4       = States('q4'   , [['a', 'q3']       , ['b', '']  , ['c', 'q5']]       , False, False )
 q5       = States('q5'   , [['a', '']         , ['b', '']  , ['c', '']]         , False, True )
 
-statsK  = [q0, q1, q2, q3, q4, q5]
+statsK   = [q0, q1, q2, q3, q4, q5]
 
 #------------------------------------------------------------
 #   NAME : Natan J. Mai
@@ -197,16 +197,12 @@ def testAFD(word, statsK):
         stateNow = returnNextState(wrd, stateNow)
 
         if stateNow == "":
-          #  print("FINAL - REJEITO")
             return False
 
-        #print("     w-> %s, state -> %s" %(wrd, stateNow.name))
         if stateNow.final == True:
-         #   print("FINAL - ACEITO")
             return True
 
     if stateNow.final == False:
-        #print("FINAL - REJEITO")
         return False
 
 
