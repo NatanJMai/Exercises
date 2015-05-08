@@ -4,7 +4,24 @@
 from states import States
 import unittest
 
-alphbt  = ['a', 'b', 'c']                            # alphabet
+# statsK is the set of states variables.
+# alphbt is the set of lyrics
+#
+# Example:
+#
+# alphbt = ['a', 'b', 'c']
+#
+# q0 = States('stateName' ,
+#           [ ['letter01', 'nextState01', 'nextState02' ..],
+#             ['letter02', 'nextState01', 'nextState02' ..],
+#             ['letter03', 'nextState01', 'nextState02' ..]], InitialState (Bool), FinalState (Bool))
+#
+# q0 = States('q0' , [['a', 'q1'] , ['b', 'q2'], ['c', '']] , True , False )
+#
+# statsK = [q0]
+#
+
+alphbt  = ['a', 'b', 'c']
 
 q0       = States('q0'   , [['a', 'q1']       , ['b', 'q2'], ['c', '']]         , True , False )
 q1       = States('q1'   , [['a', '']         , ['b', 'q0'], ['c', 'q3']]       , False, False )
