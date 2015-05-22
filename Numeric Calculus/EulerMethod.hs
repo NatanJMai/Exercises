@@ -8,8 +8,8 @@ n = 0.1
 
 h = (b - a) / n
 
-f x y = 
-    x - y + 2
+f x y =
+  x - y + 2
 
 
 y = [f a 0]
@@ -23,21 +23,23 @@ y2 = y1 + h * f(x1, y1)
 y3 = y2 + h * f(x2, y2) --}
 
 yi 0 = y !! 0
-yi z = 
-    (y !! (z - 1)) + (n * f (x !! (z - 1))(y !! (z - 1)))
+yi z =
+  (y !! (z - 1)) + (n * f (x !! (z - 1))(y !! (z - 1)))
 
-     
 --let bb = [ y ++ form i | i <- [1..h]]
 
-elemE a n = 
-    a !! n
+elemE a n =
+  a !! n
 
-ff yy i 
-    | i                 > 1 	= yy
-    | otherwise			= a ++ (ff a (i + 1)) 
-    where a 			= yy ++ [(elemE yy i) * h] 
-   
 
+ff yy i
+  | i             > 9     = yy
+  | otherwise             = ff a (i + 1)
+  where a                 = yy ++ [(elemE yy i) + (n * f (elemE x i)(elemE yy i))]
+
+
+
+-- ++ (ff a (i + 1))
 
 
 
