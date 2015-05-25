@@ -2,34 +2,33 @@
 -- Computer Science
 -- Natan J. Mai
 
-b = 3
-a = 1
-h = 0.1
-n = (b - a) / h
-c = round (n - 1):: Int
-
+b    = 3
+a    = 1
+h    = 0.05
+y1   = [1]
+n    = (b - a) / h
+c    = round (n - 1):: Int
+y    = ff y1 0
+e    = er [] 0
+erro = zipWith (-) y e
 
 f x y =
   (y / x) - (y / x) ^ 2
 
-y = [1]
+y' x =
+  (x / (1 + log(x)))
 
-x = [ a + (i * h) | i <- [0 .. n - 1]]
-
-
-yi 0 = y !! 0
-yi z =
-  (y !! (z - 1)) + (h * f (x !! (z - 1))(y !! (z - 1)))
-
+x = [ a + (i * h) | i <- [0 .. n]]
 
 elemE a n =
   a !! n
-
 
 ff yy i
   | i             > c     = yy
   | otherwise             = ff a (i + 1)
   where a                 = yy ++ [(elemE yy i) + (h * f (elemE x i)(elemE yy i))]
 
-
-
+er v s
+  | s             > c + 1 = v
+  | otherwise             = er a (s + 1)
+  where a                 = v ++ [y'(elemE x s)]
