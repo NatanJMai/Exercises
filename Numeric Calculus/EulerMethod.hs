@@ -1,5 +1,7 @@
 -- Euler Method
 -- Computer Science
+-- Numeric Calculus
+-- Question nr 2 .
 -- Natan J. Mai
 
 b    = 3
