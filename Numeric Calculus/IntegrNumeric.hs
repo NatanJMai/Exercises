@@ -10,13 +10,12 @@ e = realToFrac (exp 1)
 f t =
   e ** (- (t ** 2))
 
-y = map (f) x
-
-y' c indice
-  | indice `mod` 2    == 0  = 2 * c
-  | otherwise               = c
-
+y     = map (f) x
+xxx   = [ y !! round(i) | i <- [1.. n - 2]]
+ab    = map (* 2) xxx
+aab   = [y !! 0] ++ ab ++ [y !! round (n - 2)]
 
 
+final = (2 / sqrt(pi)) * ((h / 2) * sum aab)
 
-ab = zipWith (\i j -> if round(i) `mod` 2 == 0 then 2 * j else j) [0 .. n - 1] y
+
