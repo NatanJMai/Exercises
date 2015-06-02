@@ -12,18 +12,16 @@ n    = (b - a) / h
 c    = round (n - 1):: Int
 y    = ff y1 0
 e    = er [] 0
-erro = zipWith (-) y e
+erro = zipWith (\ i j -> abs(i - j)) y e
 
 f x y =
   (y / x) - (y / x) ^ 2
 
-y' x =
-  (x / (1 + log(x)))
+y' x = (x / (1 + log(x)))
 
 x = [ a + (i * h) | i <- [0 .. n]]
 
-elemE a n =
-  a !! n
+elemE a n = a !! n
 
 ff yy i
   | i             > c     = yy

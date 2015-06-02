@@ -1,8 +1,12 @@
+{-
+    Questão número 1,
+    letra A
+-}
 
-a = -3 
+a = -3
 b = 3
 h = 0.25
-n = 25        -- alterar
+n = ((b - a) / h) + 1
 
 x = [a + i * h | i <- [0..n - 1]]
 e = realToFrac (exp 1)
@@ -17,5 +21,3 @@ aab   = [y !! 0] ++ ab ++ [y !! round (n - 2)]
 
 
 final = (2 / sqrt(pi)) * ((h / 2) * sum aab)
-
-
