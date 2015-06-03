@@ -3,7 +3,7 @@ b = 2
 a = 0
 n = 5
 h = 0.4
-c = 2
+c = round(n) :: Int
 x = [a + (i * h) | i <- [0..n]]
 
 y1 = [2]
@@ -33,6 +33,6 @@ calcK i yy =
 
 
 ff yy i 
-  | i           > 1   = yy
+  | i           > c   = yy
   | otherwise         = ff a (i + 1)
   where a             = yy ++ [calcK i yy]
