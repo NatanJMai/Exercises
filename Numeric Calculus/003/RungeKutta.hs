@@ -14,15 +14,18 @@ y'   = map (f') x
 y    = ff y1 0
 erro = zipWith (\ x y -> abs( x - y )) y y'
 
+-- Impressao
 main = do
   let zer = map (show) x  
   let one = map (show) y
   let two = map (show) y'
   let thr = map (show) erro
-  let fou = ["--------X---------"] ++ zer ++ ["\n---------Y--------"] ++ one ++ ["\n---------Y'-------"] ++ two ++  ["\n---------E--------"] ++ thr 
+  let fou = show h : ["<- h"]   ++ ["\n--------X---------"] ++ zer ++ ["\n---------Y--------"] 
+                                ++ one ++ ["\n---------Y'-------"] 
+                                ++ two ++  ["\n---------E--------"] 
+                                ++ thr 
   let fiv = unlines fou
   putStrLn (fiv)
-
 
 
 k1' x y i = 
