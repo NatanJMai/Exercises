@@ -1,5 +1,8 @@
+#!usr/bin/env/python
+
 from math import pi
 from math import exp as e
+from math import sqrt
 
 a = -3 
 b = 3
@@ -60,3 +63,7 @@ def main():
    printN(y, "\n\nY => ")
    printN(y1, "\n\nY' => ")
    print("\n\nAT => %f" % t2)
+
+
+if __name__ == "__main__":
+  main()
