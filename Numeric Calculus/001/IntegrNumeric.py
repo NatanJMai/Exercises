@@ -4,10 +4,13 @@ from math import pi
 from math import exp as e
 from math import sqrt
 
-a = -3 
-b = 3
-h = 0.25
-n = int((b - a) / h)
+def princ(a1, b1, h1):
+  global a, b, h, n
+  a = a1
+  b = b1 
+  h = h1
+  n = int((b - a) / h)
+  return calculo()
 
 def qDerivada (x):
   print(x)
@@ -53,7 +56,7 @@ def final(y):
   return y1
 
 
-def main():
+def calculo():
    x  = initX()
    y  = initY(x)
    y1 = final(y)
@@ -62,8 +65,9 @@ def main():
    printN(x, "X => ")
    printN(y, "\n\nY => ")
    printN(y1, "\n\nY' => ")
-   print("\n\nAT => %f" % t2)
+   print("\n\nAreaTotal => %f" % t2)
+   return y
 
 
 if __name__ == "__main__":
-  main()
+  princ(-5, 5, 0.125)
