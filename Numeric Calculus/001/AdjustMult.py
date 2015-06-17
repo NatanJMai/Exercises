@@ -40,8 +40,8 @@ def main():
 
 	finalX = [[n      , xAux[0], xAux[1], xAux[2], xAux[3], xAux[4] , sum_y  ] ,
 			  [xAux[0] , xAux[1], xAux[2], xAux[3], xAux[4], xAux[5] , sum_xy ] ,
-		      [xAux[1] , xAux[2], xAux[3], xAux[4], xAux[5], xAux[6] , sum_x2y] ,
-		      [xAux[2] , xAux[3], xAux[4], xAux[5], xAux[6], xAux[7] , sum_x3y] ,
+			  [xAux[1] , xAux[2], xAux[3], xAux[4], xAux[5], xAux[6] , sum_x2y] ,
+			  [xAux[2] , xAux[3], xAux[4], xAux[5], xAux[6], xAux[7] , sum_x3y] ,
 			  [xAux[3] , xAux[4], xAux[5], xAux[6], xAux[7], xAux[8] , sum_x4y] ,
 			  [xAux[4] , xAux[5], xAux[6], xAux[7], xAux[8], xAux[9] , sum_x5y]]
 
@@ -65,7 +65,6 @@ def main():
 	r2     = 1 - (soma / baixo)
 
 	print("B = %s" % beta)
-	print("R2: %f" % r2)
 
 	impressao(x, "-----------------------X--------------------")
 	impressao(y, "-----------------------Y--------------------")

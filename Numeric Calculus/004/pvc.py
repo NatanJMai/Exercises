@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from math  import exp
 from gauss import func
 
@@ -21,6 +24,9 @@ def main():
 	h = 0.1
 	n = int((b - a) / h)
 	result  = []
+	x       = []
+	for i in range(0, n + 1):
+		x.append(i * h)
 
 	for i in range(0, n):
 		result.append(res(i))
@@ -54,28 +60,19 @@ def main():
 					matriz[i][j] = result[i + 1]
 
 
-	#matriz = [  [ betha(1), A,  0, 0, 0, 0, 0, 0, 0, result[1] ],
-	#		 	[ D, betha(2), A, 0, 0, 0, 0, 0, 0, result[2] ],
-	#			[ 0, D, betha(3), A, 0, 0, 0, 0, 0, result[3] ],
-	#			[ 0, 0, D, betha(4), A, 0, 0, 0, 0, result[4] ],
-	#			[ 0, 0, 0, D, betha(5), A, 0, 0, 0, result[5] ],
-	#			[ 0, 0, 0, 0, D, betha(6), A, 0, 0, result[6] ],
-	#			[ 0, 0, 0, 0, 0, D, betha(7), A, 0, result[7] ],
-	#			[ 0, 0, 0, 0, 0, 0, D, betha(8), A, result[8] ],
-	#			[ 0, 0, 0, 0, 0, 0, 0, D, betha(9), (result[9] - (alpha() * e))]]
-
-
-	print("\n\n")
-
-
-	novaV  = [0] + result + [e]
+	novaV  = result
 	nova   = func(matriz)
 
-	for i in nova:
-		print(i)
 
-	print(novaV)
-	x9     = nova[8][9] / nova[8][8]
+	teste  = [e]
+	teste.append(nova[n - 2][n - 1] / nova[n - 2][n - 2])
+
+	#teste[1] = x9
+	#teste[2] = x8
+
+
+	x10	   = e
+	x9     = nova[8][9]   / nova[8][8]
 	x8     = (nova[7][9]  - (nova[7][8]  * x9)) / nova[7][7]
 	x7     = (nova[6][9]  - (nova[6][7]  * x8)) / nova[6][6]
 	x6     = (nova[5][9]  - (nova[5][6]  * x7)) / nova[5][5]
@@ -84,9 +81,13 @@ def main():
 	x3     = (nova[2][9]  - (nova[2][3]  * x4)) / nova[2][2]
 	x2     = (nova[1][9]  - (nova[1][2]  * x3)) / nova[1][1]
 	x1     = (nova[0][9]  - (nova[0][1]  * x2)) / nova[0][0]
+	x0	   = 0
 
+	for i in x:
+		print(i)
 
-	print("\nX1: %f" % x1)
+	print("X0: %f" % x0)
+	print("X1: %f" % x1)
 	print("X2: %f" % x2)
 	print("X3: %f" % x3)
 	print("X4: %f" % x4)
@@ -95,6 +96,8 @@ def main():
 	print("X7: %f" % x7)
 	print("X8: %f" % x8)
 	print("X9: %f" % x9)
+	print("X10: %f" % x10)
+
 
 
 if __name__ == "__main__":
