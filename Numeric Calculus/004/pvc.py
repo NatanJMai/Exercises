@@ -18,7 +18,7 @@ def main():
 	e = exp (1)
 	a = 0
 	b = 1
-	h = 0.01
+	h = 0.1
 	n = int((b - a) / h)
 	result  = []
 
@@ -68,12 +68,13 @@ def main():
 	print("\n\n")
 
 
-	novaV = [0] + result + [e]
+	novaV  = [0] + result + [e]
 	nova   = func(matriz)
 
 	for i in nova:
 		print(i)
 
+	print(novaV)
 	x9     = nova[8][9] / nova[8][8]
 	x8     = (nova[7][9]  - (nova[7][8]  * x9)) / nova[7][7]
 	x7     = (nova[6][9]  - (nova[6][7]  * x8)) / nova[6][6]

@@ -1,5 +1,13 @@
 #!usr/bin/env/python
 
+#------------------------------------------------------------
+#   NAME : Natan J. Mai
+#   DATE : 17/06/2015
+#   FILE : IntegrNumeric.py
+#   EMAIL: natan.mai@hotmail.com
+#   FUNCT: Description
+#------------------------------------------------------------
+
 from math import pi
 from math import exp as e
 from math import sqrt
@@ -7,13 +15,10 @@ from math import sqrt
 def princ(a1, b1, h1):
   global a, b, h, n
   a = a1
-  b = b1 
+  b = b1
   h = h1
   n = int((b - a) / h)
   return calculo()
-
-def qDerivada (x):
-  print(x)
 
 
 def f(x):
@@ -35,13 +40,13 @@ def initY(x):
 
 
 def printN(lista, desc):
-  print(desc) 
+  print(desc)
   for i in lista:
     print(i)
 
 
 def fourTwoOne(i):
-  if i == 0 or i == n: 
+  if i == 0 or i == n:
     return 1
   elif i % 2 == 0:
     return 2
@@ -56,18 +61,24 @@ def final(y):
   return y1
 
 
+
+
 def calculo():
    x  = initX()
    y  = initY(x)
    y1 = final(y)
    t1 = (h / 3) * (sum(y1))
    t2 = (2 / (sqrt(pi))) * t1
-   printN(x, "X => ")
-   printN(y, "\n\nY => ")
-   printN(y1, "\n\nY' => ")
-   print("\n\nAreaTotal => %f" % t2)
+
+   if __name__ == "__main__":
+        printN(x, "X => ")
+        printN(y, "\n\nY => ")
+        printN(y1, "\n\nY' => ")
+        print("\n\nAreaTotal => %f" % t2)
+
    return y
 
 
 if __name__ == "__main__":
   princ(-5, 5, 0.125)
+
