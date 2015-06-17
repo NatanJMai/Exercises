@@ -38,7 +38,11 @@ def main():
 
   sum_y   = sum(y)
   sum_y2  = sum(map(lambda y: y ** 2, y))
+  print("Somy = %s" % sum_y2)
   sum_xy  = sum(map(lambda x, y: x * y, x, y))
+  print("Somy = %s" % sum_xy)
+  print("opa %s" % (sum(map(lambda x, y: x * y, x, y))))
+
   sum_x2y = sum(map(lambda x, y: (x ** 2) * y, x, y))
   sum_x3y = sum(map(lambda x, y: (x ** 3) * y, x, y))
   sum_x4y = sum(map(lambda x, y: (x ** 4) * y, x, y))
@@ -50,8 +54,14 @@ def main():
            [xAux[2] , xAux[3], xAux[4], xAux[5], xAux[6], xAux[7] , sum_x3y] , 
            [xAux[3] , xAux[4], xAux[5], xAux[6], xAux[7], xAux[8] , sum_x4y] , 
            [xAux[4] , xAux[5], xAux[6], xAux[7], xAux[8], xAux[9] , sum_x5y]] 
+  
+  print(finalX)
+  for i in finalX: print(i)
 
   gass = gauss(finalX)
+  print("nananana")
+  print(gass)
+  for i in gass: print(i)
   x5   = gass[5][6] / gass[5][5]
   x4   = (gass[4][6] - gass[4][5]) / gass[4][4]
   x3   = (gass[3][6] - (gass[3][5] * x5)) / gass[3][3]
@@ -70,8 +80,8 @@ def main():
   r2     = 1 - (soma / baixo)
   
 
-  #print("b = %s" % beta) 
-  #print("%f" % r2)
+  print("b = %s" % beta) 
+  print("LASJDFLASD: %f" % r2)
   #for i in yBarr: print(i)
 
 def gauss(matriz):
