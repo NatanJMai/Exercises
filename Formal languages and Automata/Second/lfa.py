@@ -1,12 +1,55 @@
 from states import Producoes
 
-glci  = [["S -> Tb | a | bT | D | E"], ["T -> a"], ["C -> c | f | D"], ["D -> d"], ["E -> $"]]
+glci  = [["S -> Tb | a | bT | D | E | F | G"], ["T -> C"], ["C -> c"], ["D -> d"], ["E -> $"], ["F -> f"], ["G -> gig"]]
 prod  = []
 nvar  = []
 vari  = []
 
 def main():
   createNewFirstProduct(glci)
+  firstOfNVar()
+
+  for i in nvar:
+    print(i.name)
+    print(i.first)
+  
+
+def firstOfNVar():
+  for i in range(0, len(nvar)):
+    fixFirst(nvar[i])
+  
+  for j in range(0, len(nvar)): 
+    first = []
+    for i in range(0, len(nvar[j].first)):
+      if nvar[j].first[i].isupper():
+        a = nvar[j].first[i]
+        nvar[j].first[i] = ""        
+      else:
+        first.append(nvar[j].first[i])
+    nvar[j].first = first
+
+
+def returnUpperLetters(conj):
+  x = []
+  for i in conj:
+    if i[0].isupper():
+      x.append(i[0])
+  return x
+
+def fixFirst(prod):
+  x = returnUpperLetters(prod.first) 
+  b = getIndexNVar(prod.name)
+
+  for up in range(0, len(x)):
+    a = getIndexNVar(x[up])
+    print(nvar[a].first)
+    fixFirst(nvar[a])
+    for i in nvar[a].first:
+      if i not in nvar[b].first:
+        #print(i)
+        #print(nvar[b].first)
+        nvar[b].first.append(i)
+
 
 def createFirst(i):
   name = i[0][0]
@@ -25,6 +68,14 @@ def update(prod, op):
       if vari[i].name == prod.name:
         vari[i] = prod
 
+
+def getIndexNVar(name):
+  for i in range(0, len(nvar)):
+    if nvar[i].name == name:
+      return i
+  return -1
+
+
 def canFindNVar(name):
   for i in nvar:
     if i.name == name:
@@ -39,6 +90,13 @@ def findNVar(name):
    return False
 
 
+def getIndexVar(name):
+  for i in range(0, len(vari)):
+    if var[i].name == name:
+      return i
+  return -1
+
+
 def canFindVar(name):
   for i in vari:
     if i.name == name:
@@ -48,6 +106,28 @@ def canFindVar(name):
 
 def findVar(name):
    for i in vari:
+      if i.name == name:
+	 return i
+   return False
+
+###
+
+def getIndexProd(name):
+  for i in range(0, len(prod)):
+    if prod[i].name == name:
+      return i
+  return -1
+
+
+def canFindProd(name):
+  for i in prod:
+    if i.name == name:
+      return True
+  return False
+
+
+def findProd(name):
+   for i in prod:
       if i.name == name:
 	 return i
    return False
@@ -70,7 +150,7 @@ def createLower(i):
       vari.append(new)
       prod.append(new)
 
-
+# Principal funcao
 def createNewFirstProduct (glc):
   # S ->
   for i in glc:
@@ -94,7 +174,6 @@ def getAsList(rules):
       if rules[i] == "|" :
 	 x.append(i)
    
-   #if "|" in rules:
    x.append(len(rules))
 
    i = 0
@@ -112,25 +191,31 @@ def clearSpaceList(aux):
    return lists   
 
 
+def containsUpperLetter(conj):
+  for i in conj:
+    if i.isupper():
+      return True
+  return False
+
+
 def getFirst(prod):
-  print(prod.name + " => ")
+#  print(prod.name + " => ")
   lists = clearSpaceList(getAsList(prod.rules))
   first = []
-
   for i in lists:
      if i not in first:
-        first.append(i[0])	  
+        if containsUpperLetter(i):
+          first.append(i)
+        else:
+          first.append(i[0])	  
   
-  print("FIRST:  %s" % first)
+  j = getIndexNVar(prod.name)
+  
+  if j != -1: nvar[j].first = first
+
+#  print("FIRST:  %s" % first)
  
 
 if __name__ == '__main__':
   main()
 
-  print("-------------VARIAVEIS---------------")
-  for i in vari:
-    print(i.name)
-  
-  print("-------------NAO TERMINAIS-----------")
-  for j in nvar:
-      print(j.name)
