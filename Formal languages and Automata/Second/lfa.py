@@ -1,6 +1,6 @@
 from states import Producoes
 
-glci  = [["S -> Tb | a | xT | DC | Ex | G "], ["T -> o"], ["C -> w"], ["D -> d"], ["E -> $ | e"], ["F -> f"], ["G -> gig"]]
+glci  = [["S -> Tb | a | xT | Co | Ep |Eo | E"], ["T -> o"], ["C -> w "], ["D -> i"], ["E -> $ | e | T"], ["F -> f"], ["G -> gig | S"]]
 #glci  = [["A -> B | C | D | a"], ["B -> b"], ["C -> c"], ["D -> d"]]
 #glci  = [["X -> YZ | aY | bY | z | c"], ["Y -> a"], ["Z -> $"]]
 prod  = []
@@ -8,16 +8,24 @@ nvar  = []
 vari  = []
 
 def main():
+  for i in glci:
+    print(i)
+
   createNewFirstProduct(glci)
   firstOfNVar()
   adjust()
   #for i in nvar:
     #print(i.name)
     #print(i.first)
-  for i in nvar:
-    print("NOME => %s" % i.name)
-    print(startFollow(getIndexNVar(i.name)))
+  for i in range(0, len(nvar)):
+#    print("NOME => %s" % nvar[i].name)
+    nvar[i].follow = startFollow(getIndexNVar(nvar[i].name))
 
+  for i in nvar:
+    print("---------------------------------------------------------------------------------")
+    print("NOME: ===========> %s" % i.name)
+    print("FIRST ===========> %s" % i.first)
+    print("FOLLW ===========> %s" % i.follow)
   
 def whoCalledMe(name):
   lists = []
@@ -35,28 +43,32 @@ def findFollow(i, called):
   #S -> T
   #chamador = S
   #chamado  = T
-
+  lists = ["%"]
   for cal in called:
-    lists   = []
     ind     = getIndexNVar(cal)
     rulInd  = clearSpaceList(getAsList(nvar[ind].rules))
     for indRul in rulInd:
       for indIndRul in range(0, len(indRul)):
         if indRul[indIndRul] == nvar[i].name:
-          if (indIndRul + 1) < len(indRul):
+          if (indIndRul + 1) < len(indRul):                   #aqui eh o caso 1
             if indRul[indIndRul + 1].isupper():
               newName = getIndexNVar(indRul[indIndRul + 1])
               first   = nvar[newName].first
-#              lists.append(nvar[newName].first)
             else:
               newName = getIndexVar(indRul[indIndRul + 1])
               first   = vari[newName].first
-#              lists.append(vari[newName].first)
+            if "%" in lists: lists.remove("%")
             for firs in first:
-              lists.append(firs)
+              if firs not in lists:
+                lists.append(firs)
+          else:
 #            print(indRul[indIndRul])
-#            print(indRul[indIndRul + 1])
-    return lists
+            foll = startFollow(ind)
+            if "%" in foll: foll.remove("%")
+            for firs in foll:
+              if firs not in lists:
+                lists.append(firs)
+  return lists
 
   
 
