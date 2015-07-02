@@ -1,6 +1,7 @@
 from states import Producoes
 
-glci  = [["S -> Tb | a | bT | D | E | F | G"], ["T -> C"], ["C -> c"], ["D -> d"], ["E -> $"], ["F -> f"], ["G -> gig"]]
+glci  = [["S -> Tb | a | bT | D | Ef | G "], ["T -> o"], ["C -> w"], ["D -> d"], ["E -> $ | e"], ["F -> f"], ["G -> gig"]]
+#glci  = [["A -> B | C | D | a"], ["B -> b"], ["C -> c"], ["D -> d"]]
 prod  = []
 nvar  = []
 vari  = []
@@ -12,7 +13,37 @@ def main():
   for i in nvar:
     print(i.name)
     print(i.first)
+
+  adjust()
+  for i in nvar:
+    print(i.name)
+    print(i.first)
+
+
   
+
+# Tem $ 
+def adjust():
+  alls = []
+  for i in range(0, len(nvar)): 
+    first = []
+    for j in range(0, len(nvar[i].first)):
+      if "@" in nvar[i].first[j]:
+        index = nvar[i].first[j].index('@')
+        if (index + 1) < len(nvar[i].first[j]):
+          proxi = index + 1
+          nomeP = nvar[i].first[j][proxi]
+          indV  = getIndexProd(nomeP)
+          for xp in prod[indV].first:
+            first.append(xp)
+        else:
+          first.append("$")
+      else:
+        first.append(nvar[i].first[j])
+    nvar[i].first = first
+
+
+
 
 def firstOfNVar():
   for i in range(0, len(nvar)):
@@ -39,15 +70,17 @@ def returnUpperLetters(conj):
 def fixFirst(prod):
   x = returnUpperLetters(prod.first) 
   b = getIndexNVar(prod.name)
-
+  
   for up in range(0, len(x)):
     a = getIndexNVar(x[up])
-    print(nvar[a].first)
     fixFirst(nvar[a])
     for i in nvar[a].first:
-      if i not in nvar[b].first:
-        #print(i)
-        #print(nvar[b].first)
+      if i == "$":
+        for p in range(0, len(nvar[b].first)):
+          if nvar[a].name in nvar[b].first[p]:
+            nvar[b].first[p] = nvar[b].first[p].replace(nvar[a].name, "@")
+
+      elif i not in nvar[b].first:
         nvar[b].first.append(i)
 
 
@@ -204,10 +237,10 @@ def getFirst(prod):
   first = []
   for i in lists:
      if i not in first:
-        if containsUpperLetter(i):
-          first.append(i)
-        else:
-          first.append(i[0])	  
+       if containsUpperLetter(i):
+         first.append(i)
+       else:
+        first.append(i[0])	  
   
   j = getIndexNVar(prod.name)
   
