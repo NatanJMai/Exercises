@@ -1,7 +1,8 @@
 from states import Producoes
 
-glci  = [["S -> Tb | a | bT | D | Ef | G "], ["T -> o"], ["C -> w"], ["D -> d"], ["E -> $ | e"], ["F -> f"], ["G -> gig"]]
+glci  = [["S -> Tb | a | xT | DC | Ex | G "], ["T -> o"], ["C -> w"], ["D -> d"], ["E -> $ | e"], ["F -> f"], ["G -> gig"]]
 #glci  = [["A -> B | C | D | a"], ["B -> b"], ["C -> c"], ["D -> d"]]
+#glci  = [["X -> YZ | aY | bY | z | c"], ["Y -> a"], ["Z -> $"]]
 prod  = []
 nvar  = []
 vari  = []
@@ -9,19 +10,69 @@ vari  = []
 def main():
   createNewFirstProduct(glci)
   firstOfNVar()
-
-  for i in nvar:
-    print(i.name)
-    print(i.first)
-
   adjust()
+  #for i in nvar:
+    #print(i.name)
+    #print(i.first)
   for i in nvar:
-    print(i.name)
-    print(i.first)
+    print("NOME => %s" % i.name)
+    print(startFollow(getIndexNVar(i.name)))
 
+  
+def whoCalledMe(name):
+  lists = []
+  for i in range(0, len(nvar)):
+    prodList = clearSpaceList(getAsList(nvar[i].rules))
+    for j in prodList:
+      if name in j:
+        lists.append(nvar[i].name)
+  return lists
+
+
+def findFollow(i, called):
+  #i eh o indice dochamado
+  #ind eh o indice dos chamadores
+  #S -> T
+  #chamador = S
+  #chamado  = T
+
+  for cal in called:
+    lists   = []
+    ind     = getIndexNVar(cal)
+    rulInd  = clearSpaceList(getAsList(nvar[ind].rules))
+    for indRul in rulInd:
+      for indIndRul in range(0, len(indRul)):
+        if indRul[indIndRul] == nvar[i].name:
+          if (indIndRul + 1) < len(indRul):
+            if indRul[indIndRul + 1].isupper():
+              newName = getIndexNVar(indRul[indIndRul + 1])
+              first   = nvar[newName].first
+#              lists.append(nvar[newName].first)
+            else:
+              newName = getIndexVar(indRul[indIndRul + 1])
+              first   = vari[newName].first
+#              lists.append(vari[newName].first)
+            for firs in first:
+              lists.append(firs)
+#            print(indRul[indIndRul])
+#            print(indRul[indIndRul + 1])
+    return lists
 
   
 
+
+def startFollow(i):
+  called = whoCalledMe(nvar[i].name)
+  return(findFollow(i, called))
+
+
+
+
+
+
+
+
+#   FIRST FIRST FIRST FIRST
 # Tem $ 
 def adjust():
   alls = []
@@ -34,12 +85,16 @@ def adjust():
           proxi = index + 1
           nomeP = nvar[i].first[j][proxi]
           indV  = getIndexProd(nomeP)
-          for xp in prod[indV].first:
-            first.append(xp)
+          for xp in prod[indV].first: 
+            if xp not in first:
+              first.append(xp)
         else:
-          first.append("$")
+          if "$" not in first:
+            first.append("$")
       else:
-        first.append(nvar[i].first[j])
+        b = nvar[i].first[j][0]
+        if b not in first and not b.isupper():
+          first.append(b)
     nvar[i].first = first
 
 
@@ -125,7 +180,7 @@ def findNVar(name):
 
 def getIndexVar(name):
   for i in range(0, len(vari)):
-    if var[i].name == name:
+    if vari[i].name == name:
       return i
   return -1
 
