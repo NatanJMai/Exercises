@@ -50,18 +50,19 @@ def test3():
   main(glci)
 
 def tests():
-  clear()
-  v = int(raw_input("Op (1, 2, 3) > "))
+  while True:
+    clear()
+    v = int(raw_input("Op (1, 2, 3) > "))
   
-  if v == 1:
-    print("TEST 01 =>\n")
-    test1()
-  elif v == 2:
-    print("TEST 02 =>\n")
-    test2()
-  elif v == 3:
-    print("TEST 03 =>\n")
-    test3()
-
+    if v == 1:
+      print("TEST 01 =>\n")
+      test1()
+    elif v == 2:
+      print("TEST 02 =>\n")
+      test2()
+    elif v == 3:
+      print("TEST 03 =>\n")
+      test3()
+    raw_input("\n\n\n\nPRESS ENTER ---->")
 if __name__ == "__main__":
   tests()
