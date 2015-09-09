@@ -18,13 +18,8 @@ automaton = AUT.autMain()
 
 keywords = ["file", "find", "each", "directory", "new", "print", "tar", "zip", "where", "canfind", "name", "return", "path", "author", "delete","and", "or"]
 sy       = ["=","!",">"," <", "->",":","(",")",'"'] 
-ID       = []
 
-separ = ['-', '>', '(', '"', '=', '!', '"', '>', '<', ':'] 
 sepNT = [' ', '\n', '\t']
-
-for i in string.ascii_lowercase:
-  ID.append(i)
 
 
 def createToken(name, desc):
@@ -48,6 +43,7 @@ def run(stt):
   wrd    = ""
   don    = False
   tokens = []
+
   while(i < final):
     wrd  = ''
 
@@ -68,37 +64,6 @@ def run(stt):
     i    = j  
     don  = False
 
-
-  '''
-  while(i < final):
-    let  = stt[i]
-    wrd  = wrd + let
-    last = atual
-    print(let)
-
-    if let in separ:
-      nextS = AUT.nextState(atual, let)
-      atual = nextS
-      if not don:
-        tokens.append(createToken(last.name,  wrd[:len(wrd) - 1]))
-        don = True
-
-      wrd = let
-      tokens.append(createToken(atual.name, wrd))
-      wrd = ''
-      i   += 1
-    
-    elif let in sepNT:
-      tokens.append(createToken(last.name, wrd[:len(wrd) - 1]))
-      wrd = ''
-      i += 1
-
-    else:
-      nextS = AUT.nextState(atual, let)
-      atual = nextS
-      #print(atual.name)
-      i += 1
-  '''  
   for i in tokens:
     print(i.name, i.typ, i.desc)
 
