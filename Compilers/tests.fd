@@ -1,0 +1,13 @@
+file->each(where name = "natan"): delete
+directory->each(where path = "nope"):zip
+file->
+directory->find(where name = "natan"): tar
+return
+directory->find(where name = "jose"): delete
+
+file->new "natan"
+,
+#
+$
+%
+
