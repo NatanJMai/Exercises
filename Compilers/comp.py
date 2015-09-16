@@ -3,10 +3,12 @@ import automaton as AUT
 from enum     import Enum
 
 class Token(object):
-  def init(self, typ, name, desc):
-    self.typ  = typ
-    self.name = name
-    self.desc = desc
+  def init(self, typ, name, desc, line, column):
+    self.typ    = typ
+    self.name   = name
+    self.desc   = desc
+    self.line   = line
+    self.column = column
 
 class Type(Enum):
   ID  = 0
@@ -22,7 +24,7 @@ sy       = ["=","!",">"," <", "->",":","(",")",'"']
 sepNT = [' ', '\n', '\t']
 
 
-def createToken(name, desc):
+def createToken(name, desc, line, column):
   token = Token()
   if name == "ERROR":
     typ = Type.ERR
@@ -32,10 +34,10 @@ def createToken(name, desc):
     typ = Type.SYM
   else:
     typ = Type.ID
-  token.init(typ, name, desc)
+  token.init(typ, name, desc, line, column)
   return token
 
-def run(stt):
+def run(stt, column):
   i      = 0
   j      = 0
   final  = len(stt) - 1 
@@ -52,26 +54,31 @@ def run(stt):
       if not let in sepNT:
         nextS = AUT.nextState(atual, let)
         if nextS == ():
-          tokens.append(createToken("ERROR", let))
+          tokens.append(createToken("ERROR", let, j + 2, column))
         elif nextS != ():
           atual = nextS
           wrd   = wrd + let
           don   = atual.final
           if don == True:
-            tokens.append(createToken(atual.name, wrd))
+            tokens.append(createToken(atual.name, wrd, j + 2, column))
       j += 1
     
     i    = j  
     don  = False
-
-  for i in tokens:
-    print(i.name, i.typ, i.desc)
+  
+  return tokens
 
 def main():
+  x = 0
+  tokens     = []
   file_input = open("tests.fd", 'r')
   
   for i in file_input:    
-    run(i)
+    x += 1
+    tokens += run(i, x)
+  
+  for i in tokens:
+    print(i.name, i.typ, i.desc, i.line, i.column)
 
 
 if __name__ == "__main__":
