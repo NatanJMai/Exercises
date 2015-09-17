@@ -1,0 +1,8 @@
+directory->each(where path = "nope"):zip
+file->
+directory->find(where name = "natan"): tar
+return
+directory->find(where name = "jose"): delete
+
+file->new "natan"  		
+directory->canfind(where name = "jose" and path = "natan" or name = "jose"):

@@ -45,6 +45,7 @@ def run(stt, column):
   wrd    = ""
   don    = False
   tokens = []
+  tok   = createToken("$", "$", 0, 0)
 
   while(i < final):
     wrd  = ''
@@ -54,13 +55,13 @@ def run(stt, column):
       if not let in sepNT:
         nextS = AUT.nextState(atual, let)
         if nextS == ():
-          tokens.append(createToken("ERROR", let, j + 2, column))
+          tokens.append(createToken("ERROR", let, column, j + 2))
         elif nextS != ():
           atual = nextS
           wrd   = wrd + let
           don   = atual.final
           if don == True:
-            tokens.append(createToken(atual.name, wrd, j + 2, column))
+            tokens.append(createToken(atual.name, wrd, column, j + 2))
       j += 1
     
     i    = j  
@@ -71,14 +72,18 @@ def run(stt, column):
 def main():
   x = 0
   tokens     = []
+  tok        = createToken("$", "$", 0, 0)
   file_input = open("tests.fd", 'r')
   
   for i in file_input:    
     x += 1
     tokens += run(i, x)
   
+  tokens.append(tok)
+
   for i in tokens:
-    print(i.name, i.typ, i.desc, i.line, i.column)
+    #print(i.name,i.desc, i.line, i.column)
+    print("%s & %s & %d & %d \\\\" %(i.name, i.desc, i.line, i.column))
 
 
 if __name__ == "__main__":

@@ -11,6 +11,8 @@ E' ::> andE | orE | &
 O  ::> = | ! | > | <
 C  ::> aC ... zC | &
 A  ::> delete | print | tar | zip
+N  ::> aT ... zT 
+T  ::> aT ... zT | &
 
 
 
