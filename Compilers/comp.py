@@ -82,8 +82,8 @@ def main():
   tokens.append(tok)
 
   for i in tokens:
-    #print(i.name,i.desc, i.line, i.column)
-    print("%s & %s & %d & %d \\\\" %(i.name, i.desc, i.line, i.column))
+    print(i.name,i.desc, i.line, i.column)
+    #print("%s & %s & %d & %d \\\\" %(i.name, i.desc, i.line, i.column))
 
 
 if __name__ == "__main__":

@@ -1,2 +1,5 @@
-file->eachs(wheres name = "): delete
+file->each(where name = "natan"): delete
+file->canfind(where name = "natan")
+directory->find(where path = "teste"): zip
+directory->each(where author = "eu"): tar
 return
