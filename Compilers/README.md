@@ -1,7 +1,9 @@
 <h1>README</h1>
 
-**Disciplina: ** Compiladores - Ciência da Computação
-**Autor: **NatanJMai
+**Disciplina:** Compiladores - Ciência da Computação<\br>
+
+**Autor:** NatanJMai
+
 **Trabalho:** Trabalho 1 - Analisador Léxico<br>
 <h4> Requisitos</h4>
 ----------
