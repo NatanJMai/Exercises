@@ -1,6 +1,6 @@
 <h1>README</h1>
 
-**Disciplina:** Compiladores - Ciência da Computação<\br>
+**Disciplina:** Compiladores - Ciência da Computação
 
 **Autor:** NatanJMai
 
