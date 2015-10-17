@@ -1,10 +1,15 @@
+
 flisol :: Float -> Float
 flisol x =
     (x / 2) * 4
 
+prints :: Show x => x -> IO()
+prints x =
+   print x
+
 
 -- Design Pattern
-plus :: [Int] -> [Int]
+plus :: Num s => [s] -> [s]
 plus []     = []
 plus (x:xs) =
     x + 1 : plus xs
